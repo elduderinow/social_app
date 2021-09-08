@@ -1,0 +1,19 @@
+@import "../../../styles";
+main {
+  .image-wrapper {
+    .friend.image {
+      margin:0 auto;
+      background-size: cover;
+      background-position: center center;
+      width:250px;
+      height:250px;
+      border-radius:125px;
+    }
+  }
+}
+
+
+.wrapper.information {
+  overflow: scroll;
+  height: calc(100vh - (#{$height} * 2.6));
+}

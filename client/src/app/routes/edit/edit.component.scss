@@ -1,0 +1,14 @@
+@import "../../../styles";
+
+.friend.image {
+  width: 100%;
+  background-image: url("https://thumbs.dreamstime.com/b/portrait-smart-intelligent-middle-aged-man-use-cellphone-professional-social-network-user-wear-stylish-spectacles-isolated-over-165720119.jpg");
+  background-size: cover;
+  background-position: center center;
+
+}
+
+.wrapper.information {
+  //height: calc(100vh - (#{$height} * 2.6));
+  overflow: scroll;
+}

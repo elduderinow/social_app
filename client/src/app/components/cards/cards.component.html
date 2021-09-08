@@ -1,0 +1,14 @@
+
+  <div class="wrapper">
+    <div class="grid grid-cols-6 p-3 bg-white rounded-md shadow-md hover:shadow-lg">
+      <div [style.background-image]="'url(' + person.picture + ')'" class="friend image">
+
+      </div>
+      <div class="information col-span-4 p-3 pl-6">
+        <h2>{{person.fname}} {{person.lname}}</h2>
+        <p>{{person.email}}</p>
+      </div>
+    </div>
+  </div>
+
+

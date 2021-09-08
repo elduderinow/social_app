@@ -1,0 +1,32 @@
+
+
+    .wrapper {
+      transition: 0.2s;
+
+      .friend.image {
+        position: relative;
+        width: 80px;
+        height:80px;
+        border-radius:50px;
+        background-image: url("https://thumbs.dreamstime.com/b/portrait-smart-intelligent-middle-aged-man-use-cellphone-professional-social-network-user-wear-stylish-spectacles-isolated-over-165720119.jpg");
+        background-size: cover;
+        background-position: center center;
+
+      }
+
+      .information {
+        text-transform: capitalize;
+        font-weight: 600;
+        color: #282828;
+
+        p {
+          text-transform: lowercase;
+          font-weight: 400;
+          color: #a5a5a5;
+        }
+      }
+
+    }
+
+
+
