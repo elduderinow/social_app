@@ -16,7 +16,7 @@ app.all("/*", function(req, res, next){
 });
 
 
-mongoose.connect('mongodb+srv://yarrutdb:Sinterklaas1!@cluster0.yhqgt.mongodb.net/meanEx', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://yarrutdb:Sinterklaas1!@cluster0.yhqgt.mongodb.net/SocialApp', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -26,7 +26,7 @@ db.once('open', function() {
 
 const friendsSchema = {fname: String, lname: String, email: String, phone: String, language: String, chicken: String, biography: String, age: Number, picture: String}
 
-const Friends = mongoose.model("Friends", friendsSchema);
+const Friends = mongoose.model("Persons", friendsSchema);
 
 
 app.post('/addFriend',(req, res)=> {
