@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Person} from "../../modules/person";
+import {Person} from "../../modules/person/person";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddFriendService {
   private http: HttpClient;
-  public url : string = "http://localhost:8080/addFriend";
+  public url: string = "http://localhost:8080/addFriend";
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -18,6 +18,7 @@ export class AddFriendService {
   }
 
   editFriend(x: Person) {
-    return console.log('friend edited ' + x)
+    this.url = `http://localhost:8080/allFriends/${x}`;
+    return this.http.put(this.url, x)
   }
 }

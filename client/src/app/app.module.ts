@@ -13,6 +13,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CardsComponent } from './components/cards/cards.component';
 import { ButtonComponent } from './components/button/button.component';
 import { EditComponent } from './routes/edit/edit.component';
+import { LoginComponent } from './routes/login/login/login.component';
 
 
 
@@ -25,7 +26,8 @@ import { EditComponent } from './routes/edit/edit.component';
     FooterComponent,
     CardsComponent,
     ButtonComponent,
-    EditComponent
+    EditComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

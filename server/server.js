@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 const PORT = 8080;
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}) );
+app.use(express.urlencoded({extended: true}));
 
-app.all("/*", function(req, res, next){
+app.all("/*", function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
@@ -16,49 +16,76 @@ app.all("/*", function(req, res, next){
 });
 
 
-mongoose.connect('mongodb+srv://yarrutdb:Sinterklaas1!@cluster0.yhqgt.mongodb.net/SocialApp', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://yarrutdb:Sinterklaas1!@cluster0.yhqgt.mongodb.net/SocialApp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
     // we're connected!
 });
 
-const friendsSchema = {fname: String, lname: String, email: String, phone: String, language: String, chicken: String, biography: String, age: Number, picture: String}
+const friendsSchema = {
+    fname: String,
+    lname: String,
+    email: String,
+    phone: String,
+    language: String,
+    chicken: String,
+    biography: String,
+    age: Number,
+    picture: String
+}
 
 const Friends = mongoose.model("Persons", friendsSchema);
 
 
-app.post('/addFriend',(req, res)=> {
-  let newFriend = new Friends({
-      fname:req.body.fname,
-      lname:req.body.lname,
-      email:req.body.email,
-      phone:req.body.phone,
-      language:req.body.language,
-      chicken:req.body.chicken,
-      biography:req.body.biography,
-      age:req.body.age,
-      picture:req.body.picture,
-  })
+app.post('/addFriend', (req, res) => {
+    let newFriend = new Friends({
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        phone: req.body.phone,
+        language: req.body.language,
+        chicken: req.body.chicken,
+        biography: req.body.biography,
+        age: req.body.age,
+        picture: req.body.picture,
+    })
 
     newFriend.save().then(r => console.log(r));
 })
 
-app.get('/allFriends',(req, res)=> {
+app.get('/allFriends', (req, res) => {
     Friends.find((e, friends) => {
         res.send(friends);
     });
 })
 
-app.delete('/delete/:id', function (req, res, next){
-    Friends.findByIdAndDelete({_id:req.params.id}).then(function (friend){
+app.delete('/delete/:id', function (req, res, next) {
+    Friends.findByIdAndDelete({_id: req.params.id}).then(function (friend) {
         res.send(friend);
     })
 })
 
+app.put('/allFriends/:x', (req, res) => {
+    Friends.findById(req.body._id).then(friend => {
+            friend.fname = req.body.fname
+            friend.lname = req.body.lname
+            friend.email = req.body.email
+            friend.phone = req.body.phone
+            friend.language = req.body.language
+            friend.chicken = req.body.chicken
+            friend.biography = req.body.biography
+            friend.age = req.body.age
+            friend.picture = req.body.picture
+            friend.save().then(r => console.log(r));
+    });
+})
 
-app.listen(PORT,()=> {
+app.listen(PORT, () => {
 
 })
 

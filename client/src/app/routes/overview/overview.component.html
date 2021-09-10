@@ -1,12 +1,18 @@
 <app-navbar></app-navbar>
+<app-login></app-login>
 <main class="grid grid-cols-12 gap-4 px-5">
+
   <div class="title col-span-6">
     <h2>Recently Added</h2>
   </div>
   <div class="button col-span-6 text-right">
-    <a routerLink="/edit"><button class="button py-1 px-2 ml-3">+</button></a>
+    <a routerLink="/edit">
+      <button class="button py-1 px-2 ml-3">+</button>
+    </a>
   </div>
   <div *ngFor="let person of allPersons" class="col-span-12 md:col-span-6 lg:col-span-6">
-      <a [routerLink]="['/friend',person._id]"><app-cards [person]=person></app-cards></a>
+    <a [routerLink]="['/friend',person._id]">
+      <app-cards [person]=person></app-cards>
+    </a>
   </div>
 </main>

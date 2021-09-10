@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Person} from "../../modules/person";
+import {Person} from "../../modules/person/person";
 import {AddFriendService} from "./add-friend.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./edit.component.scss']
 })
   export class EditComponent implements OnInit {
+
   private addFriendService: AddFriendService;
   friend:any;
   selectedId:any = this.router.snapshot.params
@@ -30,7 +31,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 
   onClick() {
     if (this.selectedId.id !== undefined) {
-      this.addFriendService.editFriend(this.person)
+      this.addFriendService.editFriend(this.person).subscribe((data => JSON.stringify(data)))
     } else {
       this.addFriendService.addFriend(this.person).subscribe((data => JSON.stringify(data)))
     }
