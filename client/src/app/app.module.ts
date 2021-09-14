@@ -13,7 +13,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CardsComponent } from './components/cards/cards.component';
 import { ButtonComponent } from './components/button/button.component';
 import { EditComponent } from './routes/edit/edit.component';
-import { LoginComponent } from './routes/login/login/login.component';
+import { LoginComponent } from './routes/login/login.component';
+
+import {AuthModule} from '@auth0/auth0-angular';
 
 
 
@@ -34,7 +36,11 @@ import { LoginComponent } from './routes/login/login/login.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AuthModule.forRoot({
+      domain: 'dev-xopeuohm.eu.auth0.com',
+      clientId: 'GYbgyEMgyxZOQkKIcURZmCjnUPXzM7RN'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

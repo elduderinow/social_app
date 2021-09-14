@@ -15,8 +15,8 @@ app.all("/*", function (req, res, next) {
     next();
 });
 
-
-mongoose.connect('mongodb+srv://yarrutdb:Sinterklaas1!@cluster0.yhqgt.mongodb.net/SocialApp', {
+let password = 'Sinterklaas1!';
+mongoose.connect(`mongodb+srv://yarrutdb:${password}@cluster0.yhqgt.mongodb.net/SocialApp`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -39,7 +39,9 @@ const friendsSchema = {
     picture: String
 }
 
+
 const Friends = mongoose.model("Persons", friendsSchema);
+
 
 
 app.post('/addFriend', (req, res) => {
@@ -54,7 +56,6 @@ app.post('/addFriend', (req, res) => {
         age: req.body.age,
         picture: req.body.picture,
     })
-
     newFriend.save().then(r => console.log(r));
 })
 
@@ -84,6 +85,7 @@ app.put('/allFriends/:x', (req, res) => {
             friend.save().then(r => console.log(r));
     });
 })
+
 
 app.listen(PORT, () => {
 

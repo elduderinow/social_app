@@ -1,0 +1,22 @@
+<section>
+  <div class="grid grid-cols-12 gap-4 px-5 mt-5">
+    <div class="col-span-12">
+      <button (click)="login()" type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Login
+      </button>
+      <button (click)="auth.logout()" type="submit" class="ml-5 mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        logout
+      </button>
+      <button (click)="onClick()" type="submit" class="ml-5 mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        get profile
+      </button>
+    </div>
+
+    <div class="col-span-12">
+      <ul *ngIf="auth.user$ | async as user">
+        <li>Your are logged in as {{ user.nickname }}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
