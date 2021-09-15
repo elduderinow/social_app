@@ -19,7 +19,7 @@ export class EditComponent implements OnInit {
   AuthUser: CurrentUser = new CurrentUser("", "", "")
   person: Person = new Person("", "", "", "", "", "", "", "", 0, "");
 
-  constructor(public auth: AuthService, private router: ActivatedRoute, addFriendService: AddFriendService, private home: Router) {
+  constructor(private router: ActivatedRoute, addFriendService: AddFriendService, private home: Router) {
     this.addFriendService = addFriendService;
   }
 
@@ -28,18 +28,20 @@ export class EditComponent implements OnInit {
   }
 
   onClick() {
+
     if (this.person._id === "") {
       console.log('add friend')
+      this.person.email = this.AuthUser.email
       this.addFriendService.addFriend(this.person).subscribe((data => JSON.stringify(data)))
     } else {
+      this.person.email = this.AuthUser.email
       this.addFriendService.editFriend(this.person).subscribe((data => JSON.stringify(data)))
     }
-    //this.home.navigate(['/overview']);
+    this.home.navigate(['/overview']);
   }
 
 
   public async getFriends(url: string) {
-    this.getAuth()
 
     let data = await fetch(url);
     this.friend = await data.json();
@@ -51,12 +53,5 @@ export class EditComponent implements OnInit {
     console.log(this.person)
   }
 
-  getAuth() {
-    this.auth.user$.subscribe(data => {
-      this.AuthUser.email = data?.email
-      this.AuthUser.id = data?.sub
-      this.AuthUser.updated_at = data?.updated_at
-    });
-  }
 
 }

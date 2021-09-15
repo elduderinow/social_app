@@ -26,10 +26,6 @@ export class OverviewComponent implements OnInit {
     return this.getFriends("http://localhost:8080/allFriends")
   }
 
-  test(){
-    //console.log(this.currentUser._id)
-  }
-
   public async getFriends(url: string) {
     let data = await fetch(url);
     this.allPersons = await data.json();

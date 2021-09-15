@@ -1,7 +1,7 @@
 export class Person {
   fname: string;
   lname: string;
-  email: string;
+  email: string | undefined;
   phone: string;
 
   language: string;
