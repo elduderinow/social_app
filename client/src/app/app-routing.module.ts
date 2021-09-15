@@ -8,8 +8,8 @@ import {LoginComponent} from "./routes/login/login.component";
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'edit', component: EditComponent },
-  { path: 'friend/:id', component: FriendComponent },
-  { path: 'edit/:id', component: EditComponent },
+  { path: 'friend/:email', component: FriendComponent },
+  { path: 'edit/:email', component: EditComponent },
   { path: 'overview', component: OverviewComponent }
 ];
 

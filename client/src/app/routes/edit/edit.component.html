@@ -1,7 +1,8 @@
 <app-navbar></app-navbar>
 <main class="grid grid-cols-12">
   <div class="wrapper information col-span-12 md:col-span-12 p-5">
-    <h2 class="text-xl pb-5 pt-3"> {{selectedId.id === person._id ?  "Edit information" : "Add New Contact"}}</h2>
+    <h2 class="text-xl pb-5 pt-3"> {{selectedId.email === person.email ?  "Edit information" : "Add New Contact"}}</h2>
+    {{person | json}}
     <div class="mt-5 md:mt-0 md:col-span-2">
       <form #formName="ngForm" (ngSubmit)="onClick()">
         <div class="shadow overflow-hidden sm:rounded-md">
@@ -11,28 +12,24 @@
               <div class="col-span-6 sm:col-span-3">
                 <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
                 <input #fname="ngModel" [(ngModel)]="person.fname" required type="text" id="first_name" name="first_name"
-                       autocomplete="family-name"
                        class="p-2 border-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
               <div class="col-span-6 sm:col-span-3">
                 <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
                 <input value="test2" #lname="ngModel" [(ngModel)]="person.lname" required type="text" id="last_name" name="last_name"
-                       autocomplete="family-name"
                        class="p-2 border-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label for="email_address" class="block text-sm font-medium text-gray-700">Email
                   address</label>
-                <input #email="ngModel" [(ngModel)]="person.email" required type="text"
-                       id="email_address"
-                       autocomplete="email" name="last_name"
+                <input #email="ngModel" [(ngModel)]="person.email" required type="text" id="email_address" name="email_address"
                        class="p-2 border-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label for="phone" class="block text-sm font-medium text-gray-700">Phone Nr</label>
-                <input #phone="ngModel" [(ngModel)]="person.phone" required type="text" name="email_address" id="phone"
+                <input #phone="ngModel" [(ngModel)]="person.phone" required type="text" name="phone" id="phone"
                        autocomplete="phone"
                        class="p-2 border-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
@@ -88,7 +85,7 @@
           <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
             <button type="submit"
                     class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-               {{selectedId.id === person._id ?  "Save" : "Add New Contact"}}
+               {{selectedId.email === person.email ?  "Save" : "Add New Contact"}}
             </button>
           </div>
         </div>

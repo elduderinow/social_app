@@ -33,10 +33,8 @@
 
             <div class="col-span-6 sm:col-span-6">
               Some facts about me:<br>
-
               {{friend.biography}}
             </div>
-
           </div>
         </div>
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -44,7 +42,7 @@
                   class="m-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Delete
           </button>
-          <a [routerLink]="['/edit',friend._id]"><button type="submit"
+          <a [routerLink]="['/edit',friend.email]"><button type="submit"
                   class="m-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Edit
           </button></a>

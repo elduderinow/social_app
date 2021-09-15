@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Person} from "../../modules/person/person";
 import {AuthService} from '@auth0/auth0-angular';
 import {ActivatedRoute, Router} from "@angular/router";
+import {CurrentUser} from "../../modules/currentUser/current-user";
 
 @Component({
   selector: 'app-overview',
@@ -10,29 +11,31 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class OverviewComponent implements OnInit {
   allPersons: Person[] = []
-  currentUser: any = {
-  }
+  AuthUser: CurrentUser = new CurrentUser("","","")
+  currentUser: any = {}
 
   constructor(public auth: AuthService, private router :ActivatedRoute, private home: Router) {
   }
 
   ngOnInit() {
-    this.auth.user$.subscribe(data => this.currentUser = data);
+    this.auth.user$.subscribe(data => {
+      this.AuthUser.email = data?.email
+      this.AuthUser.id = data?.sub
+      this.AuthUser.updated_at = data?.updated_at
+    });
     return this.getFriends("http://localhost:8080/allFriends")
+  }
+
+  test(){
+    //console.log(this.currentUser._id)
   }
 
   public async getFriends(url: string) {
     let data = await fetch(url);
     this.allPersons = await data.json();
-
-    this.currentUser = this.allPersons.find(friend => friend.email === this.currentUser.email)
-    console.log(this.currentUser)
-    let route;
+    this.currentUser = this.allPersons.find(friend => friend.email === this.AuthUser.email)
     if (this.currentUser === undefined) {
-      route = '/edit'
-    } else {
-      route = '/overview'
+      await this.home.navigate(['/edit',this.AuthUser.email]);
     }
-      this.home.navigate([route]);
   }
 }

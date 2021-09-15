@@ -10,7 +10,7 @@ import { FriendService} from "./friend.service";
 export class FriendComponent implements OnInit {
   private friendservice : FriendService;
   friend:any;
-  selectedId:string = this.router.snapshot.params.id
+  selectedEmail:string = this.router.snapshot.params.email
 
   constructor(private router :ActivatedRoute, private home: Router, friendservice: FriendService) {
     this.friendservice = friendservice;
@@ -23,7 +23,7 @@ export class FriendComponent implements OnInit {
   public async getFriends(url: string) {
     let data = await fetch(url);
     this.friend = await data.json();
-    this.friend = this.friend.find((person:any) => person._id === this.selectedId)
+    this.friend = this.friend.find((person:any) => person.email === this.selectedEmail)
   }
 
   rmPerson(id:string){
