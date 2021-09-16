@@ -19,22 +19,24 @@ export class EditComponent implements OnInit {
   AuthUser: CurrentUser = new CurrentUser("", "", "")
   person: Person = new Person("", "", "", "", "", "", "", "", 0, "");
 
-  constructor(private router: ActivatedRoute, addFriendService: AddFriendService, private home: Router) {
+  constructor(public auth: AuthService,private router: ActivatedRoute, addFriendService: AddFriendService, private home: Router) {
     this.addFriendService = addFriendService;
   }
 
   ngOnInit() {
+    this.auth.user$.subscribe(data => {
+      this.AuthUser.email = data?.email
+      this.AuthUser.id = data?.sub
+      this.AuthUser.updated_at = data?.updated_at
+    });
     return this.getFriends("http://localhost:8080/allFriends")
   }
 
   onClick() {
-
     if (this.person._id === "") {
-      console.log('add friend')
       this.person.email = this.AuthUser.email
       this.addFriendService.addFriend(this.person).subscribe((data => JSON.stringify(data)))
     } else {
-      this.person.email = this.AuthUser.email
       this.addFriendService.editFriend(this.person).subscribe((data => JSON.stringify(data)))
     }
     this.home.navigate(['/overview']);
@@ -46,11 +48,10 @@ export class EditComponent implements OnInit {
     let data = await fetch(url);
     this.friend = await data.json();
     let temp = this.friend.find((person: any) => person.email === this.AuthUser.email)
-    console.log(temp)
+
     if (temp !== undefined) {
       this.person = this.friend.find((person: any) => person.email === this.AuthUser.email)
     }
-    console.log(this.person)
   }
 
 

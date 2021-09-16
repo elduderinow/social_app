@@ -12,6 +12,9 @@ Developing A CRUD social app in the MEAN stack with authentication, with a chat 
 - chat can use gifs
 - chat can send images
 
+#Extra
+- user can post content on own private page which is only viewable by added friends.
+
 ## Deploy on Heroku w Server.
 Test Link: 
 
@@ -20,8 +23,14 @@ Test Link:
 - Setting up a MongoDB database with a "persons" collection
 
 ## Phase 2:
-- Create A login page. [CURRENT]
-- Set user as logged in user.
+- Create A authentication using auth0.
+- Link Auth0 to own MongoDB
+- Link Auth0 Mongodb collection to own user collection.
+- Set user as logged-in user.
+- Only able to edit or delete selected user.
+
+## Phase 2b:
+- Refactoring previous code to clean code. [CURRENT]
 
 ## Phase 3:
 - Implement socket.io as chat functionality

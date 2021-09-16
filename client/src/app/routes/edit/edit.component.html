@@ -20,13 +20,6 @@
               </div>
 
               <div class="col-span-6 sm:col-span-3">
-                <label for="email_address" class="block text-sm font-medium text-gray-700">Email
-                  address</label>
-                <input #email="ngModel" [(ngModel)]="person.email" required type="text" id="email_address" name="email_address"
-                       class="p-2 border-gray-200 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-              </div>
-
-              <div class="col-span-6 sm:col-span-3">
                 <label for="phone" class="block text-sm font-medium text-gray-700">Phone Nr</label>
                 <input #phone="ngModel" [(ngModel)]="person.phone" required type="text" name="phone" id="phone"
                        autocomplete="phone"
