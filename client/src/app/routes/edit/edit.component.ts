@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Person} from "../../modules/person/person";
 import {AddFriendService} from "./add-friend.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from '@auth0/auth0-angular';
+import {CurrentUserService} from "../../modules/currentUser/current-user.service";
 import {CurrentUser} from "../../modules/currentUser/current-user";
 
 @Component({
@@ -11,24 +11,16 @@ import {CurrentUser} from "../../modules/currentUser/current-user";
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-
-  private addFriendService: AddFriendService;
-  friend: any;
-  selectedId: any = this.router.snapshot.params.email
-  title: string = 'Angular Friends';
-  AuthUser: CurrentUser = new CurrentUser("", "", "")
+  AuthUser:CurrentUser = this.currentUser.getAuthUser()
   person: Person = new Person("", "", "", "", "", "", "", "", 0, "");
 
-  constructor(public auth: AuthService,private router: ActivatedRoute, addFriendService: AddFriendService, private home: Router) {
-    this.addFriendService = addFriendService;
-  }
+  constructor(
+    public currentUser: CurrentUserService,
+    private router: ActivatedRoute,
+    private addFriendService: AddFriendService,
+    private home: Router) {}
 
   ngOnInit() {
-    this.auth.user$.subscribe(data => {
-      this.AuthUser.email = data?.email
-      this.AuthUser.id = data?.sub
-      this.AuthUser.updated_at = data?.updated_at
-    });
     return this.getFriends("http://localhost:8080/allFriends")
   }
 
@@ -44,15 +36,11 @@ export class EditComponent implements OnInit {
 
 
   public async getFriends(url: string) {
-
     let data = await fetch(url);
-    this.friend = await data.json();
-    let temp = this.friend.find((person: any) => person.email === this.AuthUser.email)
+    let result = await data.json();
 
-    if (temp !== undefined) {
-      this.person = this.friend.find((person: any) => person.email === this.AuthUser.email)
-    }
+    result.find((person: any) => {
+      if (person.email === this.AuthUser.email) this.person = person
+    });
   }
-
-
 }
