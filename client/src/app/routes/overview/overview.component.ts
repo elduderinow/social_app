@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Person} from "../../modules/person/person";
-import {AuthService} from '@auth0/auth0-angular';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CurrentUser} from "../../modules/currentUser/current-user";
+import {CurrentUserService} from "../../modules/currentUser/current-user.service";
 
 @Component({
   selector: 'app-overview',
@@ -11,27 +11,35 @@ import {CurrentUser} from "../../modules/currentUser/current-user";
 })
 export class OverviewComponent implements OnInit {
   allPersons: Person[] = []
-  AuthUser: CurrentUser = new CurrentUser("","","")
-  currentUser: any = {}
+  AuthUser: CurrentUser = this.currentUser.getAuthUser()
+  person: any = {}
 
-  constructor(public auth: AuthService, private router :ActivatedRoute, private home: Router) {
+  constructor(
+    public currentUser: CurrentUserService,
+    private router: ActivatedRoute,
+    private home: Router) {
   }
 
   ngOnInit() {
-    this.auth.user$.subscribe(data => {
-      this.AuthUser.email = data?.email
-      this.AuthUser.id = data?.sub
-      this.AuthUser.updated_at = data?.updated_at
-    });
     return this.getFriends("http://localhost:8080/allFriends")
   }
 
   public async getFriends(url: string) {
     let data = await fetch(url);
     this.allPersons = await data.json();
-    this.currentUser = this.allPersons.find(friend => friend.email === this.AuthUser.email)
-    if (this.currentUser === undefined) {
-      await this.home.navigate(['/edit',this.AuthUser.email]);
+
+    //this.allPersons.find((person: Person) => {
+    //  console.log(person)
+    //  if (person === undefined) {
+    //    console.log('this person is undefined')
+    //  } if(person.email === this.AuthUser.email) {
+    //    this.person = person
+    //  }
+    //});
+
+    this.person = this.allPersons.find((person:Person) => person.email === this.AuthUser.email)
+    if (this.person === undefined) {
+      await this.home.navigate(['/edit', this.AuthUser.email]);
     }
   }
 }

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import { FriendService} from "./friend.service";
 import {AuthService} from "@auth0/auth0-angular";
 import {CurrentUser} from "../../modules/currentUser/current-user";
+import {Person} from "../../modules/person/person";
 
 @Component({
   selector: 'app-friend',
@@ -27,7 +28,7 @@ export class FriendComponent implements OnInit {
   public async getFriends(url: string) {
     let data = await fetch(url);
     this.friend = await data.json();
-    this.friend = this.friend.find((person:any) => person.email === this.selectedEmail)
+    this.friend = this.friend.find((person:Person) => person.email === this.selectedEmail)
   }
 
   rmPerson(id:string){

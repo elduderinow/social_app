@@ -3,19 +3,17 @@
   <div class="title col-span-12">
     <h2>You are Logged in As:</h2>
   </div>
+
   <div class="col-span-12">
     <a [routerLink]="['/friend',AuthUser.email]">
-      <app-cards [person]=this.currentUser></app-cards>
+      <app-cards [person]=person></app-cards>
     </a>
   </div>
+
   <div class="title col-span-12">
-    <h2>Recently Added</h2>
+    <h2>New On Only Friends</h2>
   </div>
-<!--  <div class="button col-span-6 text-right">-->
-<!--    <a routerLink="/edit">-->
-<!--      <button class="button py-1 px-2 ml-3">+</button>-->
-<!--    </a>-->
-<!--  </div>-->
+
   <div *ngFor="let person of allPersons" class="col-span-12 md:col-span-6 lg:col-span-6">
     <a [routerLink]="['/friend',person.email]">
       <app-cards [person]=person></app-cards>
