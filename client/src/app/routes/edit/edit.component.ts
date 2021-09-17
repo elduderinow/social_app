@@ -34,7 +34,6 @@ export class EditComponent implements OnInit {
     this.home.navigate(['/overview']);
   }
 
-
   public async getFriends(url: string) {
     let data = await fetch(url);
     let result = await data.json();

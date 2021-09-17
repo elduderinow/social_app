@@ -8,18 +8,17 @@ import {Person} from "../../modules/person/person";
 export class FriendService {
   private http: HttpClient;
   public url : string = "http://localhost:8080/";
-  private allPersons: Person[];
 
-  constructor(http: HttpClient, allPersons:Person[]) {
+  constructor(http: HttpClient) {
     this.http = http;
-    this.allPersons = allPersons
   }
 
   deleteFriend(id: string) {
     return this.http.delete(this.url + `delete/${id}`)
   }
 
-  getFriends() {
-    return this.http.get(this.url + `allFriends`)
+  public async getFriends() {
+    let data = await fetch(this.url + `allFriends`);
+    return await data.json();
   }
 }

@@ -13,7 +13,7 @@ import {FriendService} from "../friend/friend.service";
 export class OverviewComponent implements OnInit {
   allPersons: Person[] = []
   AuthUser: CurrentUser = this.currentUser.getAuthUser()
-  person: any = {}
+  person: Person | undefined
 
   constructor(
     public friendService: FriendService,
@@ -22,25 +22,16 @@ export class OverviewComponent implements OnInit {
     private home: Router) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.getFriends()
   }
 
-  getFriends(){
-    this.friendService.getFriends().subscribe((data =>{ JSON.stringify(data); console.log(data)}))
+  async getFriends(){
+    this.allPersons = await this.friendService.getFriends()
+    this.person = this.allPersons.find((person: Person) => person.email === this.AuthUser.email)
+    if (this.person === undefined) {
+      await this.home.navigate(['/edit', this.AuthUser.email]);
+    }
   }
-  //ngOnInit() {
-  //  return this.getFriends("http://localhost:8080/allFriends")
-  //}
-//
-  //public async getFriends(url: string) {
-  //  let data = await fetch(url);
-  //  this.allPersons = await data.json();
-//
-  //  this.person = this.allPersons.find((person:Person) => person.email === this.AuthUser.email)
-  //  if (this.person === undefined) {
-  //    await this.home.navigate(['/edit', this.AuthUser.email]);
-  //  }
-  //}
 }
 
