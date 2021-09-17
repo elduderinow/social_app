@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { FriendService} from "./friend.service";
-import {AuthService} from "@auth0/auth0-angular";
 import {CurrentUser} from "../../modules/currentUser/current-user";
 import {Person} from "../../modules/person/person";
+import {CurrentUserService} from "../../modules/currentUser/current-user.service";
 
 @Component({
   selector: 'app-friend',
@@ -11,17 +11,18 @@ import {Person} from "../../modules/person/person";
   styleUrls: ['./friend.component.scss']
 })
 export class FriendComponent implements OnInit {
-  private friendservice : FriendService;
+
   friend:any;
-  AuthUser: CurrentUser = new CurrentUser("", "", "")
+  AuthUser: CurrentUser = this.currentUser.getAuthUser()
   selectedEmail:string = this.router.snapshot.params.email
 
-  constructor(public auth: AuthService,private router :ActivatedRoute, private home: Router, friendservice: FriendService) {
-    this.friendservice = friendservice;
-  }
+  constructor(
+    public currentUser: CurrentUserService,
+    private router :ActivatedRoute,
+    private home: Router,
+    private friendservice : FriendService) {}
 
   ngOnInit() {
-    this.getAuth()
     return this.getFriends("http://localhost:8080/allFriends")
   }
 
@@ -34,15 +35,6 @@ export class FriendComponent implements OnInit {
   rmPerson(id:string){
     this.friendservice.deleteFriend(id).subscribe((data => JSON.stringify(data)))
     this.home.navigate(['/']);
-  }
-
-  getAuth() {
-    this.auth.user$.subscribe(data => {
-      this.AuthUser.email = data?.email
-      this.AuthUser.id = data?.sub
-      this.AuthUser.updated_at = data?.updated_at
-    });
-
   }
 
 }

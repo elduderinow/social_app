@@ -3,6 +3,7 @@ import {Person} from "../../modules/person/person";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CurrentUser} from "../../modules/currentUser/current-user";
 import {CurrentUserService} from "../../modules/currentUser/current-user.service";
+import {FriendService} from "../friend/friend.service";
 
 @Component({
   selector: 'app-overview',
@@ -15,31 +16,31 @@ export class OverviewComponent implements OnInit {
   person: any = {}
 
   constructor(
+    public friendService: FriendService,
     public currentUser: CurrentUserService,
     private router: ActivatedRoute,
     private home: Router) {
   }
 
-  ngOnInit() {
-    return this.getFriends("http://localhost:8080/allFriends")
+  async ngOnInit() {
+    this.getFriends()
   }
 
-  public async getFriends(url: string) {
-    let data = await fetch(url);
-    this.allPersons = await data.json();
-
-    //this.allPersons.find((person: Person) => {
-    //  console.log(person)
-    //  if (person === undefined) {
-    //    console.log('this person is undefined')
-    //  } if(person.email === this.AuthUser.email) {
-    //    this.person = person
-    //  }
-    //});
-
-    this.person = this.allPersons.find((person:Person) => person.email === this.AuthUser.email)
-    if (this.person === undefined) {
-      await this.home.navigate(['/edit', this.AuthUser.email]);
-    }
+  getFriends(){
+    this.friendService.getFriends().subscribe((data =>{ JSON.stringify(data); console.log(data)}))
   }
+  //ngOnInit() {
+  //  return this.getFriends("http://localhost:8080/allFriends")
+  //}
+//
+  //public async getFriends(url: string) {
+  //  let data = await fetch(url);
+  //  this.allPersons = await data.json();
+//
+  //  this.person = this.allPersons.find((person:Person) => person.email === this.AuthUser.email)
+  //  if (this.person === undefined) {
+  //    await this.home.navigate(['/edit', this.AuthUser.email]);
+  //  }
+  //}
 }
+
