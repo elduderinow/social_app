@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <main class="grid grid-cols-12">
   <div class="image-wrapper col-span-12 md:col-span-4 mt-5">
-    <div [style.background-image]="'url(' + friend.picture + ')'" class="friend image">
+    <div [style.background-image]="'url(' + person.picture + ')'" class="friend image">
     </div>
   </div>
 
@@ -13,36 +13,36 @@
           <div class="grid grid-cols-6 gap-6">
 
             <div class="col-span-6 sm:col-span-3">
-              <h2>{{friend.fname}} {{friend.lname}}</h2>{{friend.age}}
+              <h2>{{person.fname}} {{person.lname}}</h2>{{person.age}}
             </div>
 
             <div class="col-span-6 sm:col-span-3">
-              Phone: {{friend.phone}}<br>
-              Email: {{friend.email}}
+              Phone: {{person.phone}}<br>
+              Email: {{person.email}}
             </div>
 
             <div class="col-span-6 sm:col-span-3">
               My Favourite language is:<br>
-              {{friend.language}}
+              {{person.language}}
             </div>
 
             <div class="col-span-6 sm:col-span-3">
               Do I like chicken?<br>
-              {{friend.chicken}}
+              {{person.chicken}}
             </div>
 
             <div class="col-span-6 sm:col-span-6">
               Some facts about me:<br>
-              {{friend.biography}}
+              {{person.biography}}
             </div>
           </div>
         </div>
-        <div *ngIf="friend.email === AuthUser.email " class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-          <button (click)="rmPerson(friend._id)" type="submit"
+        <div *ngIf="person.email === AuthUser.email " class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+          <button (click)="rmPerson(person._id)" type="submit"
                   class="m-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Delete
           </button>
-          <a  [routerLink]="['/edit',friend.email]">
+          <a  [routerLink]="['/edit',person.email]">
             <button type="submit" class="m-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Edit
           </button></a>

@@ -13,7 +13,7 @@ import {FriendService} from "../friend/friend.service";
 export class OverviewComponent implements OnInit {
   allPersons: Person[] = []
   AuthUser: CurrentUser = this.currentUser.getAuthUser()
-  person: Person | undefined
+  person: Person = new Person("", "", "", "", "", "", "", "", 0, "")
 
   constructor(
     public friendService: FriendService,
@@ -23,15 +23,16 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFriends()
+    this.getFriends().then((data)=> {
+      this.person = data.find((person: Person) => person.email === this.AuthUser.email)
+      if (this.person === undefined) {
+         this.home.navigate(['/edit', this.AuthUser.email]);
+      }
+    })
   }
 
-  async getFriends(){
-    this.allPersons = await this.friendService.getFriends()
-    this.person = this.allPersons.find((person: Person) => person.email === this.AuthUser.email)
-    if (this.person === undefined) {
-      await this.home.navigate(['/edit', this.AuthUser.email]);
-    }
+  async getFriends() {
+    return this.allPersons = await this.friendService.getFriends()
   }
 }
 

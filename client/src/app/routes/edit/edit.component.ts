@@ -4,6 +4,7 @@ import {AddFriendService} from "./add-friend.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CurrentUserService} from "../../modules/currentUser/current-user.service";
 import {CurrentUser} from "../../modules/currentUser/current-user";
+import {FriendService} from "../friend/friend.service";
 
 @Component({
   selector: 'app-edit',
@@ -11,17 +12,23 @@ import {CurrentUser} from "../../modules/currentUser/current-user";
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-  AuthUser:CurrentUser = this.currentUser.getAuthUser()
+  AuthUser: CurrentUser = this.currentUser.getAuthUser()
   person: Person = new Person("", "", "", "", "", "", "", "", 0, "");
 
   constructor(
+    public friendService: FriendService,
     public currentUser: CurrentUserService,
     private router: ActivatedRoute,
     private addFriendService: AddFriendService,
-    private home: Router) {}
+    private home: Router) {
+  }
 
   ngOnInit() {
-    return this.getFriends("http://localhost:8080/allFriends")
+    this.getFriends().then((data) => {
+      data.find((person: Person) => {
+        if (person.email === this.AuthUser.email) this.person = person
+      });
+    })
   }
 
   onClick() {
@@ -34,12 +41,7 @@ export class EditComponent implements OnInit {
     this.home.navigate(['/overview']);
   }
 
-  public async getFriends(url: string) {
-    let data = await fetch(url);
-    let result = await data.json();
-
-    result.find((person: any) => {
-      if (person.email === this.AuthUser.email) this.person = person
-    });
+  async getFriends() {
+    return await this.friendService.getFriends()
   }
 }
