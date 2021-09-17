@@ -37,4 +37,8 @@ export class FriendComponent implements OnInit {
     this.home.navigate(['/']);
   }
 
+  addPerson(id: string){
+    console.log('person added' + id)
+  }
+
 }
