@@ -23,7 +23,7 @@ export class FriendComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFriends().then((data)=> {
+    this.getFriends().then((data) => {
       this.person = data.find((person: Person) => person.email === this.selectedEmail)
     })
   }
@@ -37,8 +37,7 @@ export class FriendComponent implements OnInit {
     this.home.navigate(['/']);
   }
 
-  addPerson(id: string){
-    console.log('person added' + id)
+  async requestFriend(email: string | undefined) {
+    await this.friendService.requestFriend(email, this.AuthUser).subscribe((data => JSON.stringify(data)))
   }
-
 }

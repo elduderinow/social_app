@@ -27,9 +27,10 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.getFriends().then((data) => {
       this.person = data.find((person: Person) => person.email === this.AuthUser.email)
-
+      console.log(this.person)
       if (this.person === undefined) {
         this.getUser().then((data) => {
           this.friendsCollectionService.addFriendCol(data).subscribe((data => JSON.stringify(data)))
@@ -37,10 +38,12 @@ export class OverviewComponent implements OnInit {
         this.home.navigate(['/edit', this.AuthUser.email]);
       }
     })
+
+
   }
 
   async getUser() {
-    return this.friendsCollection = new FriendsCollection(this.AuthUser.email, [], [])
+    return this.friendsCollection = new FriendsCollection(this.AuthUser.email, [], [],[])
   }
 
   async getFriends() {
@@ -50,6 +53,4 @@ export class OverviewComponent implements OnInit {
   testbutton(){
     console.log('testbutton')
   }
-
 }
-

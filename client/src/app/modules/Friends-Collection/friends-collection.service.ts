@@ -12,7 +12,6 @@ export class FriendsCollectionService {
   }
 
   addFriendCol(friend: FriendsCollection) {
-    console.log(this.url) //this is getting logged
-    return this.http.post(this.url, friend) //this doesnt get send to the server.. or the server does not log anything..
+    return this.http.post(this.url, friend)
   }
 }

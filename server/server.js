@@ -43,7 +43,8 @@ const friendsSchema = {
 const isFriendSchema = {
     email:String,
     friends:[],
-    pending:[]
+    pending_req:[],
+    pending_res:[]
 }
 
 
@@ -56,10 +57,12 @@ app.post('/addFriendCollection',(req,res)=>{
     let newFriend = new Friends({
         email: req.body.email,
         friends: req.body.friends,
-        pending: req.body.pending,
+        pending_req: req.body.pending_req,
+        pending_res: req.body.pending_res,
     })
-   console.log(newFriend)
+
     newFriend.save().then(r => console.log(r));
+
 })
 
 app.post('/addPerson', (req, res) => {
@@ -80,16 +83,15 @@ app.post('/addPerson', (req, res) => {
 app.get('/allPersons', (req, res) => {
     Persons.find((e, person) => {
         res.send(person);
-        console.log(person)
+       // console.log(person)
     });
 })
 
-//app.get('/allFriends', (req, res) => {
-//    console.log(req, res)
-//    Friends.find((e, friends) => {
-//        res.send(friends);
-//    });
-//})
+app.get('/allFriends', (req, res) => {
+    Friends.find((e, friends) => {
+        res.send(friends);
+    });
+})
 
 app.delete('/delete/:id', function (req, res, next) {
     Persons.findByIdAndDelete({_id: req.params.id}).then(function (friend) {
@@ -110,6 +112,31 @@ app.put('/allPersons/:x', (req, res) => {
             friend.picture = req.body.picture
             friend.save().then(r => console.log(r));
     });
+})
+
+app.put('/allFriends', (req,res) => {
+    console.log(req.body)
+
+    let user1 = req.body.req_email
+    let user2 = req.body.res_email
+
+    Friends.find({$or:[{email: user1},{email:user2}]},function (err, users){
+        if (err) {res.send(err);}
+        users.forEach((user) => {
+            if (user.email === user1) {
+                //user1 (the requesting) gets the user2 email in his/her response
+                user.pending_res.push(user2)
+                user.save().then(r => console.log(r));
+
+            } if(user.email === user2) {
+
+                user.pending_req.push(user1)
+                user.save().then(r => console.log(r));
+            }
+
+        })
+        console.log(users)
+    })
 })
 
 
