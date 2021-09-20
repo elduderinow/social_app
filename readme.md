@@ -32,10 +32,10 @@ Test Link:
 ## Phase 2b:
 - Refactoring previous code to clean code.
 
-## Phase 3 [CURRENT]
+## Phase 3 
 - Creating a UML scheme to design a MongoDB Pattern for friend requests
  - Link: https://lucid.app/lucidchart/invitations/accept/inv_8318ea7e-1b93-48df-8bfe-9a830ff89ffa?viewport_loc=332%2C2%2C1899%2C1004%2C0_0
-
+- Creating an extra "isfriend" object in DB with same unique identifier (email) from the auth0 observer. [CURRENT]
 
 ## Phase 4:
 - Implement socket.io as chat functionality

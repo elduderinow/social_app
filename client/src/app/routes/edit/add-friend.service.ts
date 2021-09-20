@@ -6,11 +6,9 @@ import {Person} from "../../modules/person/person";
   providedIn: 'root'
 })
 export class AddFriendService {
-  private http: HttpClient;
-  public url: string = "http://localhost:8080/addFriend";
+  public url: string = "http://localhost:8080/addPerson";
 
-  constructor(http: HttpClient) {
-    this.http = http;
+  constructor(private http: HttpClient) {
   }
 
   addFriend(x: Person) {
@@ -18,7 +16,7 @@ export class AddFriendService {
   }
 
   editFriend(x: Person) {
-    this.url = `http://localhost:8080/allFriends/${x}`;
+    this.url = `http://localhost:8080/allPersons/${x}`;
     return this.http.put(this.url, x)
   }
 }

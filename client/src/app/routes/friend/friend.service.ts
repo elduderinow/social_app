@@ -17,7 +17,7 @@ export class FriendService {
   }
 
   public async getFriends() {
-    let data = await fetch(this.url + `allFriends`);
+    let data = await fetch(this.url + `allPersons`);
     return await data.json();
   }
 }

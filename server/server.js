@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const password = require('./password.js');
 
+let mongoDB_pass = password.passwords()
 
 const PORT = 8080;
 
@@ -15,8 +17,7 @@ app.all("/*", function (req, res, next) {
     next();
 });
 
-let password = 'Sinterklaas1!';
-mongoose.connect(`mongodb+srv://yarrutdb:${password}@cluster0.yhqgt.mongodb.net/SocialApp`, {
+mongoose.connect(`mongodb+srv://yarrutdb:${mongoDB_pass}@cluster0.yhqgt.mongodb.net/SocialApp`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -39,13 +40,30 @@ const friendsSchema = {
     picture: String
 }
 
+const isFriendSchema = {
+    email:String,
+    friends:[],
+    pending:[]
+}
 
-const Friends = mongoose.model("Persons", friendsSchema);
+
+const Persons = mongoose.model("Persons", friendsSchema);
+const Friends = mongoose.model("Friends", isFriendSchema);
 
 
+app.post('/addFriendCollection',(req,res)=>{
 
-app.post('/addFriend', (req, res) => {
     let newFriend = new Friends({
+        email: req.body.email,
+        friends: req.body.friends,
+        pending: req.body.pending,
+    })
+   console.log(newFriend)
+    newFriend.save().then(r => console.log(r));
+})
+
+app.post('/addPerson', (req, res) => {
+    let newPerson = new Persons({
         fname: req.body.fname,
         lname: req.body.lname,
         email: req.body.email,
@@ -56,23 +74,31 @@ app.post('/addFriend', (req, res) => {
         age: req.body.age,
         picture: req.body.picture,
     })
-    newFriend.save().then(r => console.log(r));
+    newPerson.save().then(r => console.log(r));
 })
 
-app.get('/allFriends', (req, res) => {
-    Friends.find((e, friends) => {
-        res.send(friends);
+app.get('/allPersons', (req, res) => {
+    Persons.find((e, person) => {
+        res.send(person);
+        console.log(person)
     });
 })
 
+//app.get('/allFriends', (req, res) => {
+//    console.log(req, res)
+//    Friends.find((e, friends) => {
+//        res.send(friends);
+//    });
+//})
+
 app.delete('/delete/:id', function (req, res, next) {
-    Friends.findByIdAndDelete({_id: req.params.id}).then(function (friend) {
+    Persons.findByIdAndDelete({_id: req.params.id}).then(function (friend) {
         res.send(friend);
     })
 })
 
-app.put('/allFriends/:x', (req, res) => {
-    Friends.findById(req.body._id).then(friend => {
+app.put('/allPersons/:x', (req, res) => {
+    Persons.findById(req.body._id).then(friend => {
             friend.fname = req.body.fname
             friend.lname = req.body.lname
             friend.email = req.body.email
