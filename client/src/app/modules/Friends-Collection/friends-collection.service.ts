@@ -6,12 +6,17 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class FriendsCollectionService {
-  public url: string = 'http://localhost:8080/addFriendCollection';
+  public url: string = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {
   }
 
   addFriendCol(friend: FriendsCollection) {
-    return this.http.post(this.url, friend)
+    return this.http.post(this.url + '/addFriendCollection', friend)
+  }
+
+  deleteFriendCol(email:string) {
+    console.log(this.url + `/deleteFriend/${email}`)
+    return this.http.delete(this.url + `/deleteFriend/${email}`)
   }
 }

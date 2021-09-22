@@ -78,6 +78,7 @@ app.post('/addPerson', (req, res) => {
         picture: req.body.picture,
     })
     newPerson.save().then(r => console.log(r));
+
 })
 
 app.get('/allPersons', (req, res) => {
@@ -95,6 +96,14 @@ app.get('/allFriends', (req, res) => {
 
 app.delete('/delete/:id', function (req, res, next) {
     Persons.findByIdAndDelete({_id: req.params.id}).then(function (friend) {
+        res.send(friend);
+    })
+})
+
+app.delete('/deleteFriend/:email', function (req, res) {
+    console.log(req)
+    req.params.email = ""
+    Friends.deleteMany({email:req.params.email}).then(function (friend) {
         res.send(friend);
     })
 })

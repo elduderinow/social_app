@@ -8,5 +8,4 @@ export class CurrentUser {
     this.id = id;
     this.updated_at = updated_at;
   }
-
 }

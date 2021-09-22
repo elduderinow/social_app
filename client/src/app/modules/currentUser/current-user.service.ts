@@ -5,6 +5,7 @@ import {CurrentUser} from "./current-user";
 @Injectable({
   providedIn: 'root'
 })
+
 export class CurrentUserService {
   AuthUser: CurrentUser = new CurrentUser("", "", "")
 
@@ -14,11 +15,10 @@ export class CurrentUserService {
       this.AuthUser.id = data?.sub
       this.AuthUser.updated_at = data?.updated_at
     });
-
-
   }
 
   getAuthUser():CurrentUser{
     return this.AuthUser
   }
+
 }

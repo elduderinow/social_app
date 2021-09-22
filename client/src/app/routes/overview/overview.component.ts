@@ -14,7 +14,7 @@ import {FriendsCollection} from "../../modules/Friends-Collection/friends-collec
 })
 export class OverviewComponent implements OnInit {
   allPersons: Person[] = []
-  AuthUser: CurrentUser = this.currentUser.getAuthUser()
+  AuthUser: CurrentUser = new CurrentUser("", "", "")
   person: Person = new Person("", "", "", "", "", "", "", "", 0, "")
   friendsCollection: FriendsCollection | undefined;
 
@@ -27,30 +27,35 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.AuthUser = this.currentUser.getAuthUser()
 
-    this.getFriends().then((data) => {
-      this.person = data.find((person: Person) => person.email === this.AuthUser.email)
-      console.log(this.person)
+    this.getFriends().then((persons) => {
+      this.person = persons.find((person: Person) => person.email === this.AuthUser.email)
       if (this.person === undefined) {
         this.getUser().then((data) => {
           this.friendsCollectionService.addFriendCol(data).subscribe((data => JSON.stringify(data)))
         })
         this.home.navigate(['/edit', this.AuthUser.email]);
       }
+
     })
-
-
   }
 
   async getUser() {
-    return this.friendsCollection = new FriendsCollection(this.AuthUser.email, [], [],[])
+    return this.friendsCollection = new FriendsCollection(this.AuthUser.email, [], [], [])
   }
 
   async getFriends() {
     return this.allPersons = await this.friendService.getFriends()
   }
 
-  testbutton(){
+  testbutton() {
     console.log('testbutton')
+    console.log(this.person)
+  }
+
+  deleteEmpty() {
+    let email = "someemail"
+    this.friendsCollectionService.deleteFriendCol(email).subscribe((data => JSON.stringify(data)))
   }
 }
