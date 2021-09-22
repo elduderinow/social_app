@@ -37,14 +37,16 @@ const friendsSchema = {
     chicken: String,
     biography: String,
     age: Number,
-    picture: String
+    picture: String,
+    created_on: Date,
+    edited_on: Date
 }
 
 const isFriendSchema = {
-    email:String,
-    friends:[],
-    pending_req:[],
-    pending_res:[]
+    email: String,
+    friends: [],
+    pending_req: [],
+    pending_res: []
 }
 
 
@@ -52,7 +54,7 @@ const Persons = mongoose.model("Persons", friendsSchema);
 const Friends = mongoose.model("Friends", isFriendSchema);
 
 
-app.post('/addFriendCollection',(req,res)=>{
+app.post('/addFriendCollection', (req, res) => {
 
     let newFriend = new Friends({
         email: req.body.email,
@@ -66,6 +68,7 @@ app.post('/addFriendCollection',(req,res)=>{
 })
 
 app.post('/addPerson', (req, res) => {
+    console.log(req.body)
     let newPerson = new Persons({
         fname: req.body.fname,
         lname: req.body.lname,
@@ -76,6 +79,9 @@ app.post('/addPerson', (req, res) => {
         biography: req.body.biography,
         age: req.body.age,
         picture: req.body.picture,
+        created_on: req.body.created_on,
+        edited_on: req.body.edited_on
+
     })
     newPerson.save().then(r => console.log(r));
 
@@ -84,13 +90,18 @@ app.post('/addPerson', (req, res) => {
 app.get('/allPersons', (req, res) => {
     Persons.find((e, person) => {
         res.send(person);
-       // console.log(person)
     });
 })
 
 app.get('/allFriends', (req, res) => {
     Friends.find((e, friends) => {
         res.send(friends);
+    });
+})
+
+app.get('/FriendColl/:email', (req, res) => {
+    Friends.find({email: req.params.email}, function (err, friendCol) {
+        res.send(friendCol)
     });
 })
 
@@ -101,50 +112,54 @@ app.delete('/delete/:id', function (req, res, next) {
 })
 
 app.delete('/deleteFriend/:email', function (req, res) {
-    console.log(req)
     req.params.email = ""
-    Friends.deleteMany({email:req.params.email}).then(function (friend) {
+    Friends.deleteMany({email: req.params.email}).then(function (friend) {
         res.send(friend);
     })
 })
 
 app.put('/allPersons/:x', (req, res) => {
     Persons.findById(req.body._id).then(friend => {
-            friend.fname = req.body.fname
-            friend.lname = req.body.lname
-            friend.email = req.body.email
-            friend.phone = req.body.phone
-            friend.language = req.body.language
-            friend.chicken = req.body.chicken
-            friend.biography = req.body.biography
-            friend.age = req.body.age
-            friend.picture = req.body.picture
-            friend.save().then(r => console.log(r));
+        friend.fname = req.body.fname
+        friend.lname = req.body.lname
+        friend.email = req.body.email
+        friend.phone = req.body.phone
+        friend.language = req.body.language
+        friend.chicken = req.body.chicken
+        friend.biography = req.body.biography
+        friend.age = req.body.age
+        friend.picture = req.body.picture
+        friend.edited_on = req.body.edited_on
+        friend.created_on = req.body.created_on
+        friend.save().then(r => console.log(r));
     });
 })
 
-app.put('/allFriends', (req,res) => {
-    console.log(req.body)
+app.put('/allFriends', (req, res) => {
 
     let user1 = req.body.req_email
     let user2 = req.body.res_email
+    let date = req.body.requested_on
+    console.log(date)
 
-    Friends.find({$or:[{email: user1},{email:user2}]},function (err, users){
-        if (err) {res.send(err);}
+    Friends.find({$or: [{email: user1}, {email: user2}]}, function (err, users) {
+        if (err) {
+            res.send(err);
+        }
         users.forEach((user) => {
             if (user.email === user1) {
                 //user1 (the requesting) gets the user2 email in his/her response
-                user.pending_res.push(user2)
+                user.pending_res.push([user2, date])
                 user.save().then(r => console.log(r));
 
-            } if(user.email === user2) {
+            }
+            if (user.email === user2) {
 
-                user.pending_req.push(user1)
+                user.pending_req.push([user1,date])
                 user.save().then(r => console.log(r));
             }
 
         })
-        console.log(users)
     })
 })
 

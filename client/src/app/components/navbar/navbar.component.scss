@@ -3,6 +3,14 @@
 nav {
  // height: $height * 2.6;
   .navbar {
+    background-color: $baseColor;
+    ul {
+      float: right;
+      li {
+        margin-left: 10px;
+        display: inline-block;
+      }
+    }
     &.left {
       h1 {
         font-family: 'Montserrat', sans-serif;
@@ -10,7 +18,6 @@ nav {
         font-size:calc(#{$baseFont} * 1.5);
         display: inline-block;
       }
-      background-color: $baseColor;
     }
   }
 }

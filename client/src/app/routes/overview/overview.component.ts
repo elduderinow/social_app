@@ -14,8 +14,8 @@ import {FriendsCollection} from "../../modules/Friends-Collection/friends-collec
 })
 export class OverviewComponent implements OnInit {
   allPersons: Person[] = []
-  AuthUser: CurrentUser = new CurrentUser("", "", "")
-  person: Person = new Person("", "", "", "", "", "", "", "", 0, "")
+  AuthUser: CurrentUser = new CurrentUser("", "", "",[],[],[])
+  person: Person = new Person("", "", "", "", "", "", "", "", 0, "",new Date(),new Date())
   friendsCollection: FriendsCollection | undefined;
 
   constructor(
@@ -31,13 +31,14 @@ export class OverviewComponent implements OnInit {
 
     this.getFriends().then((persons) => {
       this.person = persons.find((person: Person) => person.email === this.AuthUser.email)
+
+      //if the person does not exist, navigate to edit page + create new friends collection db entry.
       if (this.person === undefined) {
         this.getUser().then((data) => {
           this.friendsCollectionService.addFriendCol(data).subscribe((data => JSON.stringify(data)))
         })
         this.home.navigate(['/edit', this.AuthUser.email]);
       }
-
     })
   }
 

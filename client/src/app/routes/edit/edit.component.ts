@@ -13,7 +13,7 @@ import {FriendService} from "../friend/friend.service";
 })
 export class EditComponent implements OnInit {
   AuthUser: CurrentUser = this.currentUser.getAuthUser()
-  person: Person = new Person("", "", "", "", "", "", "", "", 0, "");
+  person: Person = new Person("", "", "", "", "", "", "", "", 0, "",new Date(),new Date());
 
   constructor(
     public friendService: FriendService,
@@ -33,9 +33,12 @@ export class EditComponent implements OnInit {
 
   onClick() {
     if (this.person._id === "") {
-      this.person.email = this.AuthUser.email
+      //give extra info to the person object
+      this.injectInfo()
+      console.log(this.person)
       this.addFriendService.addFriend(this.person).subscribe((data => JSON.stringify(data)))
     } else {
+      this.person.edited_on = new Date()
       this.addFriendService.editFriend(this.person).subscribe((data => JSON.stringify(data)))
     }
     this.home.navigate(['/overview']);
@@ -43,5 +46,11 @@ export class EditComponent implements OnInit {
 
   async getFriends() {
     return await this.friendService.getFriends()
+  }
+
+  injectInfo(){
+    this.person.email = this.AuthUser.email
+    this.person.created_on = new Date()
+    this.person.edited_on = new Date()
   }
 }

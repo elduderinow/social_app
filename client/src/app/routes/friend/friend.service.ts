@@ -25,7 +25,8 @@ export class FriendService {
   requestFriend(res_email: string | undefined, req_email: CurrentUser){
     let request = {
       req_email:req_email.email,
-      res_email:res_email
+      res_email:res_email,
+      requested_on:new Date()
     }
     //console.log('user ' + req_email + ' wants to be friends with ' + res_email.email)
     console.log(request)

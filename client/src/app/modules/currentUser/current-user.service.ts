@@ -7,7 +7,7 @@ import {CurrentUser} from "./current-user";
 })
 
 export class CurrentUserService {
-  AuthUser: CurrentUser = new CurrentUser("", "", "")
+  AuthUser: CurrentUser = new CurrentUser("", "", "",[],[],[])
 
   constructor(public auth: AuthService) {
     this.auth.user$.subscribe(data => {

@@ -15,8 +15,11 @@ export class FriendsCollectionService {
     return this.http.post(this.url + '/addFriendCollection', friend)
   }
 
+  getFriendCol(email:string) {
+    return this.http.get(`${this.url}/getFriendCollection`)
+  }
+
   deleteFriendCol(email:string) {
-    console.log(this.url + `/deleteFriend/${email}`)
     return this.http.delete(this.url + `/deleteFriend/${email}`)
   }
 }

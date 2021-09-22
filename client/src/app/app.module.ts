@@ -16,6 +16,9 @@ import { EditComponent } from './routes/edit/edit.component';
 import { LoginComponent } from './routes/login/login.component';
 
 import {AuthModule} from '@auth0/auth0-angular';
+import { NotificationsComponent } from './components/Notifications/notifications.component';
+import { AlertRequestedComponent } from './components/notifications/alert-requested/alert-requested.component';
+
 
 
 
@@ -29,7 +32,9 @@ import {AuthModule} from '@auth0/auth0-angular';
     CardsComponent,
     ButtonComponent,
     EditComponent,
-    LoginComponent
+    LoginComponent,
+    NotificationsComponent,
+    AlertRequestedComponent
   ],
   imports: [
     BrowserModule,

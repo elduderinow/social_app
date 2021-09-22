@@ -11,7 +11,7 @@ import {CurrentUserService} from "../../modules/currentUser/current-user.service
   styleUrls: ['./friend.component.scss']
 })
 export class FriendComponent implements OnInit {
-  person: Person = new Person("", "", "", "", "", "", "", "", 0, "")
+  person: Person = new Person("", "", "", "", "", "", "", "", 0, "",new Date(),new Date())
   AuthUser: CurrentUser = this.currentUser.getAuthUser()
   selectedEmail: string = this.router.snapshot.params.email
 
