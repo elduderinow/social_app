@@ -1,5 +1,5 @@
-<li>
-  <p>yarrut wants to be your friend</p>
-  <button class="bg-indigo-600 hover:bg-indigo-700 px-2 rounded-md text-white mr-3">Add</button>
-  <button class="bg-gray-300 hover:bg-red-600 px-2 rounded-md text-white">Decline</button>
-</li>
+
+  <p>{{request.fname + " " + request.lname}} wants to be your friend</p>
+  <button (click)="addFriend(request.email)" class="bg-indigo-600 hover:bg-indigo-700 px-2 rounded-md text-white mr-3">Add</button>
+  <button (click)="declineFriend(request.email)" class="bg-gray-300 hover:bg-red-600 px-2 rounded-md text-white">Decline</button>
+

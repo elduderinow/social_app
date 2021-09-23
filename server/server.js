@@ -137,30 +137,72 @@ app.put('/allPersons/:x', (req, res) => {
 
 app.put('/allFriends', (req, res) => {
 
-    let user1 = req.body.req_email
-    let user2 = req.body.res_email
-    let date = req.body.requested_on
-    console.log(date)
+    let user1 = {
+        email: req.body.req_email,
+        date: req.body.requested_on,
+        fname: "",
+        lname: ""
+    }
 
-    Friends.find({$or: [{email: user1}, {email: user2}]}, function (err, users) {
-        if (err) {
-            res.send(err);
-        }
-        users.forEach((user) => {
-            if (user.email === user1) {
-                //user1 (the requesting) gets the user2 email in his/her response
-                user.pending_res.push([user2, date])
-                user.save().then(r => console.log(r));
+    let user2 = {
+        email: req.body.res_email,
+        date: req.body.requested_on,
+        fname: "",
+        lname: ""
+    }
 
+
+    Persons.find({$or: [{email: user1.email}, {email: user2.email}]}, function (err, persons) {
+        //  console.log(persons)
+        persons.forEach((person) => {
+            if (person.email === user1.email) {
+                user1.fname = person.fname
+                user1.lname = person.lname
             }
-            if (user.email === user2) {
-
-                user.pending_req.push([user1,date])
-                user.save().then(r => console.log(r));
+            if (person.email === user2.email) {
+                user2.fname = person.fname
+                user2.lname = person.lname
             }
+        })
+
+        Friends.find({$or: [{email: user1.email}, {email: user2.email}]}, function (err, users) {
+            if (err) {
+                res.send(err)
+            }
+
+            users.forEach((user) => {
+                //this is the requesting user
+                if (user.email === user1.email) {
+                    //user1 (the requesting) gets the user2 email in his/her response by pushing user2 to the pendingRes Obj.
+                    //check for doubles
+                    let reqArr = []
+                    user.pending_res.forEach((res) => {
+                        reqArr.push(res.email)
+                    })
+
+                    if (reqArr.includes(user2.email) !== true) {
+                        user.pending_res.push(user2)
+                        user.save().then(r => console.log(r));
+                    }
+                }
+                //this is the receiving user
+                if (user.email === user2.email) {
+                    //check for doubles
+                    let reqArr = []
+                    user.pending_req.forEach((req) => {
+                        reqArr.push(req.email)
+                    })
+
+                    if (reqArr.includes(user1.email) !== true) {
+                        user.pending_req.push(user1)
+                        user.save().then(r => console.log(r));
+                    }
+                }
+            })
 
         })
     })
+
 })
 
 

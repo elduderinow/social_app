@@ -1,14 +1,12 @@
-<div class="notification wrapper inline-flex justify-center text-3xl shadow-sm text-white float-right">
+<div class="notification wrapper inline-flex justify-center text-3xl  text-white float-right">
   <ul>
     <li class="relative icon-list">
-      <div class="alert"><p>{{AuthUser.pending_req.length + AuthUser.pending_res.length}}</p></div>
+      <div class="alert"><p>{{AuthUser.pending_req.length}}</p></div>
       <i class="fas fa-bell"></i>
       <div class="dropdown absolute text-sm font-medium p-2 shadow-xl">
         <ul class="notification list-items relative">
-          <app-alert-requested></app-alert-requested>
-          <li>
-            <p>Sicco accepted your friend request</p><br>
-            <button class="bg-indigo-600 hover:bg-indigo-700 px-2 rounded-md text-white mr-3">Send Message</button>
+          <li *ngFor="let request of AuthUser.pending_req">
+            <app-alert-requested [request]="request"></app-alert-requested>
           </li>
         </ul>
       </div>

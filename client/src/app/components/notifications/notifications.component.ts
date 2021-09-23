@@ -11,7 +11,7 @@ import {Person} from "../../modules/person/person";
 })
 export class NotificationsComponent implements OnInit {
   AuthUser: CurrentUser = new CurrentUser("", "", "", [], [], [])
-
+  allPersons: Person[] = []
 
   constructor(
     public notificationsService: NotificationsService,
@@ -22,20 +22,27 @@ export class NotificationsComponent implements OnInit {
   ngOnInit() {
     this.AuthUser = this.currentUser.getAuthUser()
     this.notificationsService.getFriendColl(this.AuthUser.email).then((res) => {
+      this.getReqPersons(res)
       this.populateAuthUser(res)
-      this.getReqPersons()
     })
   }
 
-  populateAuthUser(res: any) {
+  getReqPersons(res: Array<CurrentUser>) {
+    res[0].pending_req.forEach((array: object) => {
+      console.log(array)
+    })
+  }
+
+  populateAuthUser(res: Array<CurrentUser>) {
     this.AuthUser.friends = res[0].friends
     this.AuthUser.pending_req = res[0].pending_req
     this.AuthUser.pending_res = res[0].pending_res
-  }
 
+    console.log(this.AuthUser)
 
-  getReqPersons() {
-    console.log('requested persons requested')
+    this.AuthUser.pending_req.forEach((arr) => {
+      //console.log(arr[0])
+    })
   }
 
 }

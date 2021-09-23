@@ -15,6 +15,13 @@ export class FriendComponent implements OnInit {
   AuthUser: CurrentUser = this.currentUser.getAuthUser()
   selectedEmail: string = this.router.snapshot.params.email
 
+  button = {
+    styles: {
+
+    },
+    text: 'Add'
+  }
+
   constructor(
     public friendService: FriendService,
     public currentUser: CurrentUserService,

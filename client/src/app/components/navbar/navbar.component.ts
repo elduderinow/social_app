@@ -7,6 +7,13 @@ import {AuthService} from '@auth0/auth0-angular';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  button = {
+    styles: {
+      float: 'right',
+      marginLeft:'1rem'
+    },
+    text: 'Logout'
+  }
 
   constructor(public auth: AuthService) { }
 
