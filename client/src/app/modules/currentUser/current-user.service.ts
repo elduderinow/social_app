@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AuthService} from "@auth0/auth0-angular";
 import {CurrentUser} from "./current-user";
+import {Person} from "../person/person";
 
 @Injectable({
   providedIn: 'root'

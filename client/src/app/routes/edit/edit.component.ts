@@ -35,7 +35,7 @@ export class EditComponent implements OnInit {
     if (this.person._id === "") {
       //give extra info to the person object
       this.injectInfo()
-      console.log(this.person)
+
       this.addFriendService.addFriend(this.person).subscribe((data => JSON.stringify(data)))
     } else {
       this.person.edited_on = new Date()
@@ -45,7 +45,7 @@ export class EditComponent implements OnInit {
   }
 
   async getFriends() {
-    return await this.friendService.getFriends()
+    return await this.friendService.getPersons()
   }
 
   injectInfo(){

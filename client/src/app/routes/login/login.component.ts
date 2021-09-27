@@ -17,7 +17,13 @@ export class LoginComponent implements OnInit {
   currentUser: any = {}
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(data => this.currentUser = data);
+    this.auth.user$.subscribe((data)=>{
+      this.currentUser = data
+      if (data !== null){
+        this.home.navigate(['/overview']);
+      }
+    })
+  //  this.auth.user$.subscribe(data => this.currentUser = data);
   }
 
   login() {

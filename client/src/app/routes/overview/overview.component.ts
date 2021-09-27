@@ -14,6 +14,7 @@ import {FriendsCollection} from "../../modules/Friends-Collection/friends-collec
 })
 export class OverviewComponent implements OnInit {
   allPersons: Person[] = []
+  allFriends: Person[] | any = []
   AuthUser: CurrentUser = new CurrentUser("", "", "",[],[],[])
   person: Person = new Person("", "", "", "", "", "", "", "", 0, "",new Date(),new Date())
   friendsCollection: FriendsCollection | undefined;
@@ -29,7 +30,7 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.AuthUser = this.currentUser.getAuthUser()
 
-    this.getFriends().then((persons) => {
+    this.getPersons().then((persons) => {
       this.person = persons.find((person: Person) => person.email === this.AuthUser.email)
 
       //if the person does not exist, navigate to edit page + create new friends collection db entry.
@@ -40,14 +41,22 @@ export class OverviewComponent implements OnInit {
         this.home.navigate(['/edit', this.AuthUser.email]);
       }
     })
+    //console.log(this.AuthUser.friends)
+    this.getFriends(this.AuthUser.email).then((friends)=>{
+      console.log(friends)
+    })
   }
 
   async getUser() {
     return this.friendsCollection = new FriendsCollection(this.AuthUser.email, [], [], [])
   }
 
-  async getFriends() {
-    return this.allPersons = await this.friendService.getFriends()
+  async getPersons() {
+    return this.allPersons = await this.friendService.getPersons()
+  }
+
+  async getFriends(email:string | undefined){
+    return this.allFriends = await this.friendService.getFriends(email)
   }
 
   testbutton() {

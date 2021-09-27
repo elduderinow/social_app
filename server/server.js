@@ -137,19 +137,8 @@ app.put('/allPersons/:x', (req, res) => {
 
 app.put('/allFriends', (req, res) => {
 
-    let user1 = {
-        email: req.body.req_email,
-        date: req.body.requested_on,
-        fname: "",
-        lname: ""
-    }
-
-    let user2 = {
-        email: req.body.res_email,
-        date: req.body.requested_on,
-        fname: "",
-        lname: ""
-    }
+    let user1 = {email: req.body.req_email, date: req.body.requested_on, fname: "", lname: ""}
+    let user2 = {email: req.body.res_email, date: req.body.requested_on, fname: "", lname: ""}
 
 
     Persons.find({$or: [{email: user1.email}, {email: user2.email}]}, function (err, persons) {
@@ -205,6 +194,38 @@ app.put('/allFriends', (req, res) => {
 
 })
 
+app.put('/allFriends/edit', (req, res) => {
+    Friends.find({$or: [{email: req.body.thisUser}, {email: req.body.friendUser}]}, function (err, users) {
+        users.forEach((user) => {
+            if (user.email === req.body.thisUser) {
+                user.friends.push(req.body.friendUser)
+                user.pending_req = user.pending_req.filter(function (value) {
+                    return value.email !== req.body.friendUser
+                });
+                user.save().then(r => console.log(r));
+
+            }
+
+            if (user.email === req.body.friendUser) {
+                console.log(user)
+                user.friends.push(req.body.thisUser)
+                user.pending_res = user.pending_res.filter(function (value) {
+                    return value.email !== req.body.thisUser
+                });
+                user.save().then(r => console.log(r));
+            }
+        })
+    })
+})
+
+app.get('/allPersons/friends/:email', (req, res) => {
+
+    Friends.findOne({email: req.params.email}, function (err, data) {
+        Persons.find({email: {$in:data.friends}}).then(function (data){
+          res.send(data)
+        })
+    })
+})
 
 app.listen(PORT, () => {
 

@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {FriendsCollectionService} from "../../../modules/Friends-Collection/friends-collection.service";
 
 @Component({
   selector: 'app-alert-requested',
@@ -7,13 +8,14 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class AlertRequestedComponent implements OnInit {
   @Input() request: any;
-  constructor() { }
+
+  constructor(public friendsCollectionService: FriendsCollectionService) { }
 
   ngOnInit(): void {
   }
 
-  addFriend(email:string){
-    console.log('friend added with email '+email)
+  editFriend(email:string){
+    this.friendsCollectionService.editFriendCol(email).subscribe((data => JSON.stringify(data)))
   }
 
   declineFriend(email:string){

@@ -10,4 +10,5 @@ export class FriendsCollection {
     this.pending_req = pending_req;
     this.pending_res = pending_res;
   }
+
 }

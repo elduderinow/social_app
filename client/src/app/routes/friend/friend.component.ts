@@ -36,7 +36,7 @@ export class FriendComponent implements OnInit {
   }
 
   async getFriends() {
-    return await this.friendService.getFriends()
+    return await this.friendService.getPersons()
   }
 
   rmPerson(id: string) {

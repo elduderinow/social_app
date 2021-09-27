@@ -29,7 +29,7 @@ export class NotificationsComponent implements OnInit {
 
   getReqPersons(res: Array<CurrentUser>) {
     res[0].pending_req.forEach((array: object) => {
-      console.log(array)
+      //console.log(array)
     })
   }
 
@@ -38,7 +38,7 @@ export class NotificationsComponent implements OnInit {
     this.AuthUser.pending_req = res[0].pending_req
     this.AuthUser.pending_res = res[0].pending_res
 
-    console.log(this.AuthUser)
+    //console.log(this.AuthUser)
 
     this.AuthUser.pending_req.forEach((arr) => {
       //console.log(arr[0])
