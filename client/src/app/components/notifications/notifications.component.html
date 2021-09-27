@@ -1,10 +1,13 @@
 <div class="notification wrapper inline-flex justify-center text-3xl  text-white float-right">
   <ul>
     <li class="relative icon-list">
-      <div class="alert"><p>{{AuthUser.pending_req.length}}</p></div>
+      <div *ngIf="AuthUser.pending_req.length !== 0" class="alert"><p>{{AuthUser.pending_req.length}}</p></div>
       <i class="fas fa-bell"></i>
-      <div class="dropdown absolute text-sm font-medium p-2 shadow-xl">
-        <ul class="notification list-items relative">
+      <div  class="dropdown absolute text-sm font-medium p-2 shadow-xl">
+        <ul  class="notification list-items relative">
+          <li *ngIf="AuthUser.pending_req.length <= 0">
+            <p>No new messages, get some friends</p>
+          </li>
           <li *ngFor="let request of AuthUser.pending_req">
             <app-alert-requested [request]="request"></app-alert-requested>
           </li>

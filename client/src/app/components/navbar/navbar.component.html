@@ -1,8 +1,17 @@
 <nav class="grid grid-cols-12 text-white">
-  <div class="navbar left col-span-6 px-5 py-4">
-    <a routerLink="/overview"><h1>Only Friends</h1></a>
+  <div class="navbar left col-span-4 px-5 py-4">
+      <div *ngIf="isUser.email === AuthUser.email" class="wrapper">
+        <a [routerLink]="['/friend',isUser.email]">
+        <div [style.background-image]="'url(' + isUser.picture + ')'" class="profile picture inline-block"></div>
+        <h1 class="inline-block">{{isUser.fname + ' ' + isUser.lname}}</h1>
+        </a>
+      </div>
   </div>
-  <div class="navbar right col-span-6 px-5 py-4">
+  <div class="navbar center col-span-4 px-5 py-4">
+    <a routerLink="/overview"><h1 class="mr-5">Friends</h1></a>
+    <input class="text-black">
+  </div>
+  <div class="navbar right col-span-4 px-5 py-4">
     <ul>
       <li>
         <app-notifications></app-notifications>
@@ -14,6 +23,7 @@
           logout
         </button>-->
       </li>
+
     </ul>
   </div>
 </nav>

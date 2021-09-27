@@ -36,7 +36,7 @@ export class FriendComponent implements OnInit {
   }
 
   async getFriends() {
-    return await this.friendService.getPersons()
+    return await this.friendService.getNewPersons()
   }
 
   rmPerson(id: string) {
@@ -45,6 +45,7 @@ export class FriendComponent implements OnInit {
   }
 
   async requestFriend(email: string | undefined) {
+    console.log(email)
     await this.friendService.requestFriend(email, this.AuthUser).subscribe((data => JSON.stringify(data)))
   }
 }

@@ -45,7 +45,7 @@ export class EditComponent implements OnInit {
   }
 
   async getFriends() {
-    return await this.friendService.getPersons()
+    return await this.friendService.getNewPersons()
   }
 
   injectInfo(){

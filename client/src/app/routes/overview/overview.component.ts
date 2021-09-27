@@ -30,8 +30,9 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.AuthUser = this.currentUser.getAuthUser()
 
-    this.getPersons().then((persons) => {
-      this.person = persons.find((person: Person) => person.email === this.AuthUser.email)
+    this.getFriends(this.AuthUser.email).then((friends)=>{
+      this.person = friends.find((person: Person) => person.email === this.AuthUser.email)
+      console.log(this.person)
 
       //if the person does not exist, navigate to edit page + create new friends collection db entry.
       if (this.person === undefined) {
@@ -40,19 +41,29 @@ export class OverviewComponent implements OnInit {
         })
         this.home.navigate(['/edit', this.AuthUser.email]);
       }
+
+      this.allFriends  = friends.filter((elem:Person)=> {
+        return elem.email !== this.AuthUser.email
+      })
     })
-    //console.log(this.AuthUser.friends)
-    this.getFriends(this.AuthUser.email).then((friends)=>{
-      console.log(friends)
+
+    this.getNewPersons().then((persons) => {
+      console.log(persons)
+      this.allPersons = persons.filter((person:Person) => {
+        return person.email !== this.AuthUser.email
+        }
+      )
     })
+
+
   }
 
   async getUser() {
     return this.friendsCollection = new FriendsCollection(this.AuthUser.email, [], [], [])
   }
 
-  async getPersons() {
-    return this.allPersons = await this.friendService.getPersons()
+  async getNewPersons() {
+    return  await this.friendService.getNewPersons()
   }
 
   async getFriends(email:string | undefined){

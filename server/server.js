@@ -87,9 +87,25 @@ app.post('/addPerson', (req, res) => {
 
 })
 
-app.get('/allPersons', (req, res) => {
+app.get('/allPersons/new', (req, res) => {
+
     Persons.find((e, person) => {
-        res.send(person);
+        //find the last two weeks
+        let ourDate = new Date()
+        let lastWeeks = ourDate.getDate() - 7
+        ourDate.setDate(lastWeeks)
+
+        let dateArray = []
+
+        person.forEach((result)=> {
+            dateArray.push(result.created_on)
+        })
+        let filter = dateArray.filter(date => date > ourDate)
+
+        Persons.find({created_on: {$in: filter}}).then(function (data) {
+          res.send(data)
+        })
+
     });
 })
 
@@ -221,8 +237,13 @@ app.put('/allFriends/edit', (req, res) => {
 app.get('/allPersons/friends/:email', (req, res) => {
 
     Friends.findOne({email: req.params.email}, function (err, data) {
-        Persons.find({email: {$in:data.friends}}).then(function (data){
-          res.send(data)
+       if(data === null) {
+           res.send([{user:undefined}])
+           return
+       }
+       data.friends.push(req.params.email)
+        Persons.find({email: {$in: data.friends}}).then(function (data) {
+            res.send(data)
         })
     })
 })

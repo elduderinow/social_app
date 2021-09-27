@@ -17,14 +17,13 @@ export class FriendService {
     return this.http.delete(this.url + `/delete/${id}`)
   }
 
-  public async getPersons() {
-    let data = await fetch(this.url + `/allPersons`);
+  public async getNewPersons() {
+    let data = await fetch(this.url + `/allPersons/new`);
     return await data.json();
   }
 
   public async getFriends(email: string | undefined) {
     let data = await fetch(this.url + `/allPersons/friends/${email}`);
-    console.log(data)
     return await data.json();
   }
 
