@@ -15,6 +15,24 @@ export class NavbarComponent implements OnInit {
   allFriends: Person[] | any = []
   isUser: Person | any
 
+  status:boolean = false
+
+  styles = {
+    message: {
+      icon:"fa-comments",
+      styles:{
+        display:'block'
+      },
+      status:false
+    },
+    notification: {
+      icon:"fa-bell",
+      styles:{
+        display:'block'
+      },
+      status:false
+    }
+  }
 
   button = {
     styles: {
@@ -45,5 +63,16 @@ export class NavbarComponent implements OnInit {
 
   async checkUser(){
      return await this.allFriends.find((person: Person) => person.email === this.AuthUser.email)
+  }
+
+  toggle(e:any){
+    console.log(e.target.id)
+    let target = e.target.id
+
+
+    this.styles.notification.status = target === "notification";
+    this.styles.message.status = target === "message";
+    this.status = target === "profile";
+
   }
 }

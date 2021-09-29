@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NotificationsService} from "./notifications.service";
 import {CurrentUserService} from "../../modules/currentUser/current-user.service";
 import {CurrentUser} from "../../modules/currentUser/current-user";
@@ -12,6 +12,8 @@ import {Person} from "../../modules/person/person";
 export class NotificationsComponent implements OnInit {
   AuthUser: CurrentUser = new CurrentUser("", "", "", [], [], [])
   allPersons: Person[] = []
+  @Input() class: any;
+
 
   constructor(
     public notificationsService: NotificationsService,
@@ -44,5 +46,6 @@ export class NotificationsComponent implements OnInit {
       //console.log(arr[0])
     })
   }
+
 
 }

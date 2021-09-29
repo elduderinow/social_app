@@ -92,7 +92,7 @@ app.get('/allPersons/new', (req, res) => {
     Persons.find((e, person) => {
         //find the last two weeks
         let ourDate = new Date()
-        let lastWeeks = ourDate.getDate() - 7
+        let lastWeeks = ourDate.getDate() - 14
         ourDate.setDate(lastWeeks)
 
         let dateArray = []

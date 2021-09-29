@@ -1,31 +1,18 @@
-<div class="notification wrapper inline-flex justify-center text-3xl  text-white float-right">
-  <ul>
-    <li class="relative icon-list">
-      <div *ngIf="AuthUser.pending_req.length !== 0" class="alert"><p>{{AuthUser.pending_req.length}}</p></div>
-      <i class="fas fa-bell"></i>
-      <div  class="dropdown absolute text-sm font-medium p-2 shadow-xl">
-        <ul  class="notification list-items relative">
-          <li *ngIf="AuthUser.pending_req.length <= 0">
-            <p>No new messages, get some friends</p>
-          </li>
-          <li *ngFor="let request of AuthUser.pending_req">
-            <app-alert-requested [request]="request"></app-alert-requested>
-          </li>
-        </ul>
-      </div>
-    </li>
-    <li class="hidden">
-      <i class="fas fa-user"></i>
-      <div class="dropdown hidden">
-        <ul>
-          <li>friend item 1</li>
-          <li>friend item 2</li>
-          <li>friend item 3</li>
-          <li>friend item 4</li>
-        </ul>
-      </div>
-    </li>
-  </ul>
 
+<div class="notification wrapper w-full text-center">
+  <div *ngIf="AuthUser.pending_req.length !== 0" class="alert"><p>{{AuthUser.pending_req.length}}</p></div>
+  <i class="fas {{class.icon}}"></i>
+  <div [ngClass]="class.status ? 'block' : 'hidden'"  class="dropdown absolute text-sm font-medium p-2 shadow-xl">
+    <ul class="notification list-items relative">
 
+      <li *ngIf="AuthUser.pending_req.length <= 0">
+        <p>No new messages, get some friends</p>
+      </li>
+
+      <li *ngFor="let request of AuthUser.pending_req">
+        <app-alert-requested [request]="request"></app-alert-requested>
+      </li>
+
+    </ul>
+  </div>
 </div>

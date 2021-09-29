@@ -1,29 +1,40 @@
-<nav class="grid grid-cols-12 text-white">
-  <div class="navbar left col-span-4 px-5 py-4">
-      <div *ngIf="isUser.email === AuthUser.email" class="wrapper">
-        <a [routerLink]="['/friend',isUser.email]">
-        <div [style.background-image]="'url(' + isUser.picture + ')'" class="profile picture inline-block"></div>
-        <h1 class="inline-block">{{isUser.fname + ' ' + isUser.lname}}</h1>
-        </a>
-      </div>
+<nav class="grid grid-cols-12 text-white bg-white">
+  <div class="navbar left col-span-6 sm:col-span-8 px-5 py-4">
+    <a routerLink="/overview"><h1 class="mr-5 font-bold hidden sm:inline-block text-2xl">Only friends</h1></a>
+    <input placeholder="Search Friend" class="text-black bg-gray-100 shadow-sm rounded-full px-5 py-2">
   </div>
-  <div class="navbar center col-span-4 px-5 py-4">
-    <a routerLink="/overview"><h1 class="mr-5">Friends</h1></a>
-    <input class="text-black">
-  </div>
-  <div class="navbar right col-span-4 px-5 py-4">
-    <ul>
-      <li>
-        <app-notifications></app-notifications>
-      </li>
-      <li>
-        <app-button (click)="auth.logout()" [button]="button"></app-button>
-        <!--<button (click)="auth.logout()" type="submit"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 float-right">
-          logout
-        </button>-->
+  <div class="navbar right col-span-6 sm:col-span-4 px-5 py-4">
+    <ul class="icons" *ngIf="isUser.email === AuthUser.email">
+
+      <li (click)="toggle($event)">
+        <div id="notification" class="select notification"></div>
+        <app-notifications [class]="styles.notification"></app-notifications>
       </li>
 
+      <li (click)="toggle($event)">
+        <div id="message" class="select message"></div>
+        <app-notifications [class]="styles.message"></app-notifications>
+      </li>
+
+      <li (click)="toggle($event)" [style.background-image]="'url(' + isUser.picture + ')'" class="profile">
+        <div id="profile" class="select profile"></div>
+        <div class="wrapper shadow-sm w-full text-center">
+          <div [ngClass]="status ? 'block' : 'hidden'" class="dropdown user absolute text-sm font-medium p-2 shadow-xl">
+            <ul class="relative">
+              <li class="px-3 py-3">
+                <a [routerLink]="['/friend',isUser.email]">
+                  <div class="profile picture" [style.background-image]="'url(' + isUser.picture + ')'"></div>
+                  <p>{{isUser.fname + " " + isUser.lname}}</p>
+                </a>
+              </li>
+              <li class="px-3 py-3">
+                <p (click)="auth.logout()">Logout</p>
+<!--                <app-button (click)="auth.logout()" [button]="button"></app-button>-->
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>
